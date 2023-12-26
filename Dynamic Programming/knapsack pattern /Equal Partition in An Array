@@ -1,0 +1,48 @@
+
+class Solution{
+    static int equalPartition(int N, int arr[])
+    {
+        // code here
+        
+       int sum = 0;
+       for(int i:arr) {
+           sum += i;
+       }
+
+      // if sum is odd you cannot divide it into equal parts 
+      // hence return false
+       if(sum%2 == 0 ) {
+            if(subsetSumInArr(arr,N,sum/2)) return 1;
+       }
+           
+       
+       return 0;
+    }
+    
+    static boolean subsetSumInArr(int arr[],int n,int sum) {
+        
+        boolean dp[][] = new boolean[n+1][sum+1];
+        
+        for(int i=0;i<=n;i++) {
+            dp[i][0] = true;
+        }
+        
+    
+        // i relates to N 
+        for(int i=1;i<=n;i++) {
+            // j relates to sum
+            for(int j=1;j<=sum;j++) {
+                
+                if(arr[i-1] <= j) {
+                    
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-arr[i-1]];
+                }else {
+                    
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        
+        return dp[n][sum];
+    }
+}
